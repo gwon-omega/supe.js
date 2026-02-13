@@ -1,0 +1,17 @@
+{
+  "name": "super-app",
+  "version": "1.0.0",
+  "description": "Node.js Super App: goals/tasks engine + starter scaffold planner",
+  "type": "module",
+  "main": "src/super-app.js",
+  "bin": {
+    "super-app": "bin/super-app.js"
+  },
+  "scripts": {
+    "test": "node --test",
+    "start": "node bin/super-app.js demo"
+  },
+  "engines": {
+    "node": ">=18"
+  }
+}
