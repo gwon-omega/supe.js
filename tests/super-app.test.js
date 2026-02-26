@@ -3,6 +3,7 @@ import assert from "node:assert/strict";
 import fs from "node:fs";
 import os from "node:os";
 import path from "node:path";
+import crypto from "node:crypto";
 
 import {
   PM_RUNNERS,
@@ -30,7 +31,9 @@ test("save and load", () => {
 
 test("security and validation checks", () => {
   assert.throws(() => generateScaffoldPlan("../evil", "react", ["tailwind"], "npm"), /Invalid project name/);
+  assert.throws(() => generateScaffoldPlan("con", "react", ["tailwind"], "npm"), /reserved on Windows/);
   assert.throws(() => generateScaffoldPlan("bad", "next", ["tailwind"], "deno"), /Incompatible package manager/);
+  assert.ok(generateScaffoldPlan("edge-kit", "deno_fresh", ["tailwind"], "deno")[0].startsWith("deno run -A -r jsr:@fresh/create"));
   const report = securityPolicyReport("react", ["tailwind"], "npm", true);
   assert.equal(report.checks.find((c) => c.id === "run_mode").status, "warn");
 });

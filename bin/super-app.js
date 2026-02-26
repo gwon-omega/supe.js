@@ -5,26 +5,36 @@ import {
   UI_LIBS,
   demo,
   designGuidance,
+  detectDeveloperEnvironment,
+  evaluatePolicy,
   installHints,
 
   queryStarterPresets,
+  rankStarterPresets,
   researchCatalog,
   scaffoldFromPreset,
   scaffoldStarterApp,
-  securityPolicyReport
+  securityPolicyReport,
+  syncPlan,
+  userWorkspace
 } from "../src/super-app.js";
 
 function printHelp() {
 
   super-app demo
+  super-app doctor [--refresh] [--json]
   super-app install-hints [--json]
+  super-app reminder [--platform <linux|macos|windows>] [--json]
+  super-app profile --user <id> [--base-dir <path>] [--json]
+  super-app sync --user <id> [--provider <github|gitlab|bitbucket>] [--remote <name>] [--json]
+  super-app policy-check --file <policy.json> [--framework <name>] [--package-manager <pm>] [--ui <lib...>] [--json]
   super-app design [--theme <neon_noir|calm_pro|sunrise_flow>] [--json]
   super-app catalog [--json]
-
 `);
 }
 
 function argValue(args, key, fallback) {
+
 
       continue;
     }
@@ -39,15 +49,12 @@ function main(argv = process.argv.slice(2)) {
   if (command === "--help" || command === "-h") return printHelp(), 0;
   if (command === "demo") return demo(), 0;
 
-
       if (argv.includes("--json")) console.log(JSON.stringify(presets, null, 2));
       else presets.forEach((p) => console.log(`- ${p.id} [${p.category}/${p.maturity}]: ${p.description}`));
       return 0;
     }
     const name = argValue(argv, "--name", "");
     const projectName = findPresetProjectArg(argv);
-    if (!name || !projectName) throw new Error("Usage: super-app preset --name <preset> <project-name> [--run] [--json]");
-
   }
 
   if (command === "catalog") {
@@ -81,7 +88,6 @@ function main(argv = process.argv.slice(2)) {
   if (command === "starter") {
     const name = argv[1];
     if (!name) throw new Error("Project name is required for starter command");
-    console.log(JSON.stringify(result, null, 2));
     return 0;
   }
 

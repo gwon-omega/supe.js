@@ -27,7 +27,16 @@
 - Add security baseline features (policy report, validation gates, safer defaults)
 - Add proper open-source governance files (license, contributing, conduct, security policy)
 - Expand preset categories with research metadata and query filters
-
+- Add cross-platform script generation (`bash`/`powershell`/`cmd`) and environment doctor checks
+- Harden project-name validation for Windows reserved paths and safer execution behavior
+- Reduce environment diagnostics latency with low-overhead command discovery and cache refresh support
+- Add execution allowlist/timeout guardrails and Deno Fresh run-ready command generation
 - Web UI for goal management + starter generation
-- Multi-user support and remote sync
-- Notifications/reminders
+- Multi-user support and remote sync (local profile workspace + remote sync planning implemented via `profile` and `sync`)
+- Notifications/reminders (starter automation guidance implemented via `reminder` command)
+
+
+## Phase 8 (future)
+- Advanced preset provenance (signature chains, transparency logs)
+- Policy-as-code for scaffold governance and organization guardrails (phase started: `policy-check` command + JSON policy file evaluation)
+- Optional cloud-assisted recommendations with strict privacy controls
