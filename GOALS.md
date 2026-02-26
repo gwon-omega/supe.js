@@ -28,13 +28,6 @@
 - Add proper open-source governance files (license, contributing, conduct, security policy)
 - Expand preset categories with research metadata and query filters
 
-## Phase 6 (next)
-- Load external presets from community plugin files
-- Add template signing/trust model for external starter packs
-- Add generated project boot files and optional docs-site output
-- Add ranking/scoring for presets based on maintenance signals and adoption telemetry (opt-in)
-
-## Phase 7 (future)
 - Web UI for goal management + starter generation
 - Multi-user support and remote sync
 - Notifications/reminders
