@@ -192,41 +192,6 @@ function shellSafe(value, shell = "bash") {
   if (shell === "powershell") return `'${value.replaceAll("'", "''")}'`;
   return `'${value.replaceAll("'", "'\\''")}'`;
 }
-
-function cmdSafePath(value) {
-  if (/^[a-zA-Z0-9_./:-]+$/.test(value)) return value;
-  return `"${value.replaceAll("\"", "\"\"")}"`;
-}
-
-export function renderScaffoldScript(commands, shell = "bash") {
-  const commandLines = commands.filter((line) => !line.startsWith("#"));
-  const commentLines = commands.filter((line) => line.startsWith("#"));
-  if (shell === "powershell") {
-    return ["$ErrorActionPreference = 'Stop'", ...commandLines.map((line) => line.startsWith("cd ") ? `Set-Location ${shellSafe(line.slice(3), "powershell")}` : line), ...commentLines].join("\n");
-  }
-  if (shell === "cmd") {
-    return ["@echo off", "setlocal", ...commandLines.map((line) => line.startsWith("cd ") ? `cd /d ${cmdSafePath(line.slice(3))}` : line), ...commentLines.map((line) => `REM${line.slice(1)}`)].join("\r\n");
-  }
-  return ["set -euo pipefail", ...commandLines, ...commentLines].join("\n");
-}
-
-let environmentCache = null;
-
-export function detectDeveloperEnvironment(forceRefresh = false) {
-  if (environmentCache && !forceRefresh) return structuredClone(environmentCache);
-  const detected = {
-    platform: process.platform,
-    arch: process.arch,
-    nodeVersion: process.version,
-    shell: process.env.SHELL || process.env.ComSpec || "unknown",
-    packageManagers: {}
-  };
-  for (const manager of Object.keys(PM_RUNNERS)) detected.packageManagers[manager] = isCommandAvailable(manager);
-  detected.recommendedShell = process.platform === "win32" ? "powershell" : "bash";
-  detected.host = os.hostname();
-  environmentCache = detected;
-  return structuredClone(detected);
-}
     }
     return true;
   });
@@ -272,6 +237,7 @@ export function generateScaffoldPlan(projectName, framework, uiComponents, packa
   steps.push(`# Palette: ${design.palette.join(", ")}`);
   return steps;
 }
+
   };
   if (!runCommands) return result;
   let cwd = process.cwd();
@@ -290,8 +256,6 @@ export function generateScaffoldPlan(projectName, framework, uiComponents, packa
   return result;
 }
 
-
-}
 
 
 

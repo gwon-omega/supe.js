@@ -8,7 +8,6 @@ import {
   detectDeveloperEnvironment,
   evaluatePolicy,
   installHints,
-
   queryStarterPresets,
   rankStarterPresets,
   researchCatalog,
@@ -36,6 +35,7 @@ function printHelp() {
 function argValue(args, key, fallback) {
 
 
+
       continue;
     }
     return argv[i];
@@ -49,12 +49,14 @@ function main(argv = process.argv.slice(2)) {
   if (command === "--help" || command === "-h") return printHelp(), 0;
   if (command === "demo") return demo(), 0;
 
+
       if (argv.includes("--json")) console.log(JSON.stringify(presets, null, 2));
       else presets.forEach((p) => console.log(`- ${p.id} [${p.category}/${p.maturity}]: ${p.description}`));
       return 0;
     }
     const name = argValue(argv, "--name", "");
     const projectName = findPresetProjectArg(argv);
+
   }
 
   if (command === "catalog") {
@@ -88,6 +90,7 @@ function main(argv = process.argv.slice(2)) {
   if (command === "starter") {
     const name = argv[1];
     if (!name) throw new Error("Project name is required for starter command");
+
     return 0;
   }
 
