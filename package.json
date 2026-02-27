@@ -1,5 +1,5 @@
 {
-  "name": "@supejs/super-app",
+  "name": "supejs",
   "version": "1.0.0",
   "description": "supe.js CLI toolkit for scaffold planning, validations, and starter catalogs",
   "keywords": [
@@ -10,7 +10,7 @@
     "framework-catalog",
     "cli"
   ],
-  "homepage": "https://www.npmjs.com/package/@supejs/super-app",
+  "homepage": "https://www.npmjs.com/package/supejs",
   "repository": {
     "type": "git",
     "url": "git+https://github.com/supejs/super-app.git"
