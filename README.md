@@ -41,7 +41,7 @@ Run directly:
 node bin/supe.js --help
 ```
 
-Package URL: https://www.npmjs.com/package/@supe.js/super-app
+Package URL: https://www.npmjs.com/package/@supejs/super-app
 
 ## CLI Reference
 
@@ -84,15 +84,15 @@ node bin/supe.js design --theme neon_noir --json
 node bin/supe.js catalog --json
 ```
 
-## Publishing under the `@supe.js` organization
+## Publishing under the `@supejs` organization
 
-If your npm organization is already configured (for example `@supe.js`), this package is now scoped and ready for org publishing:
+If your npm organization is already configured (for example `@supejs`), this package is now scoped and ready for org publishing:
 
 ### Public visibility checklist
 
-- Confirm package scope and name: `@supe.js/super-app`
+- Confirm package scope and name: `@supejs/super-app`
 - Keep `publishConfig.access` as `public`
-- Ensure npm package page is reachable after publish: `https://www.npmjs.com/package/@supe.js/super-app`
+- Ensure npm package page is reachable after publish: `https://www.npmjs.com/package/@supejs/super-app`
 
 
 ```bash
@@ -103,6 +103,16 @@ npm publish --dry-run
 ```
 
 > Note: scoped packages should generally publish with `public` access unless you are using a private plan. This repo sets `publishConfig.access` to `public`.
+
+## GitHub Actions auto-publish to npm
+
+This repository includes a publish workflow at `.github/workflows/publish.yml` that publishes to the `@supejs` npm org when a GitHub Release is published.
+
+1. Create an npm access token from the `supejs` npm org with publish access.
+2. Add it in GitHub repository secrets as `NPM_TOKEN`.
+3. Create a GitHub Release (for example `v1.0.1`) after bumping `package.json` version.
+
+The workflow runs tests first and then publishes with provenance enabled.
 
 ## Development
 
