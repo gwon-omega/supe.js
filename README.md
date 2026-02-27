@@ -1,8 +1,8 @@
 <div align="center">
 
-# supe.js ⚡
+# Supe.js ⚡
 
-**supe.js is a production-oriented CLI for project scaffolding, policy checks, design guidance, and developer workflow planning.**
+**Supe.js is a production-oriented CLI for project scaffolding, policy checks, design guidance, and developer workflow planning.**
 
 ![Node.js](https://img.shields.io/badge/node-%3E%3D18-339933?logo=node.js&logoColor=white)
 ![Module Type](https://img.shields.io/badge/modules-ESM-1f6feb)
@@ -41,7 +41,6 @@ Run directly:
 node bin/supe.js --help
 ```
 
-Package URL: https://www.npmjs.com/package/supejs
 
 ## CLI Reference
 
@@ -84,35 +83,14 @@ node bin/supe.js design --theme neon_noir --json
 node bin/supe.js catalog --json
 ```
 
-## Publishing to npm as `supejs`
-
-If your npm account or organization owns the `supejs` package, this repository is ready for automated publish:
-
-### Public visibility checklist
-
-- Confirm package name: `supejs`
-- Keep `publishConfig.access` as `public` (safe for current config)
-- Ensure npm package page is reachable after publish: `https://www.npmjs.com/package/supejs`
 
 
 ```bash
 npm whoami
 npm test
 npm pack
-npm publish --dry-run
+npm publish --dry-run --access public
 ```
-
-> Note: this package is currently unscoped (`supejs`). Keeping `publishConfig.access` as `public` is fine and keeps future scoped migration straightforward.
-
-## GitHub Actions auto-publish to npm
-
-This repository includes a publish workflow at `.github/workflows/publish.yml` that publishes `supejs` when a GitHub Release is published.
-
-1. Create an npm access token from the `supejs` npm org with publish access.
-2. Add it in GitHub repository secrets as `NPM_TOKEN`.
-3. Create a GitHub Release (for example `v1.0.1`) after bumping `package.json` version.
-
-The workflow runs tests first and then publishes with provenance enabled.
 
 ## Development
 

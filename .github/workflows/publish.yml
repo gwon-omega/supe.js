@@ -26,7 +26,5 @@ jobs:
       - name: Run tests
         run: npm test
 
-      - name: Publish to npm (supejs)
-        run: npm publish --provenance
         env:
           NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
