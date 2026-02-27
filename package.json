@@ -1,5 +1,4 @@
 {
-  "name": "@supejs/supejs",
   "version": "1.0.0",
   "description": "supe.js CLI toolkit for scaffold planning, validations, and starter catalogs",
   "keywords": [
@@ -10,13 +9,6 @@
     "framework-catalog",
     "cli"
   ],
-  "homepage": "https://www.npmjs.com/package/@supejs/supejs",
-  "repository": {
-    "type": "git",
-    "url": "git+https://github.com/supejs/supejs.git"
-  },
-  "bugs": {
-    "url": "https://github.com/supejs/supejs/issues"
   },
   "type": "module",
   "main": "src/supe.js",

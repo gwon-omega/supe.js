@@ -1,8 +1,8 @@
 <div align="center">
 
-# supe.js ⚡
+# Supe.js ⚡
 
-**supe.js is a production-oriented CLI for project scaffolding, policy checks, design guidance, and developer workflow planning.**
+**Supe.js is a production-oriented CLI for project scaffolding, policy checks, design guidance, and developer workflow planning.**
 
 ![Node.js](https://img.shields.io/badge/node-%3E%3D18-339933?logo=node.js&logoColor=white)
 ![Module Type](https://img.shields.io/badge/modules-ESM-1f6feb)
@@ -41,7 +41,6 @@ Run directly:
 node bin/supe.js --help
 ```
 
-Package URL: https://www.npmjs.com/package/@supejs/supejs
 
 ## CLI Reference
 
@@ -84,15 +83,6 @@ node bin/supe.js design --theme neon_noir --json
 node bin/supe.js catalog --json
 ```
 
-## Publishing to npm org scope `@supejs`
-
-If your npm organization is `supejs`, publish this package as `@supejs/supejs` so it is managed inside the org scope:
-
-### Public visibility checklist
-
-- Confirm package name: `@supejs/supejs`
-- Keep `publishConfig.access` as `public` (safe for current config)
-- Ensure npm package page is reachable after publish: `https://www.npmjs.com/package/@supejs/supejs`
 
 
 ```bash
@@ -100,30 +90,6 @@ npm whoami
 npm test
 npm pack
 npm publish --dry-run --access public
-```
-
-> Note: scoped packages require public access for open-source publishing. This repo keeps `publishConfig.access` set to `public` and the workflow publishes with `--access public`.
-
-## GitHub Actions auto-publish to npm
-
-
-> Security note: never commit or paste your npm token in code, workflow files, issues, or PR comments. If a token was exposed, revoke it in npm and create a new one immediately.
-
-This repository includes a publish workflow at `.github/workflows/publish.yml` that publishes `@supejs/supejs` when a GitHub Release is published.
-
-1. Create an npm access token from the `supejs` npm org with publish access to `@supejs/*`.
-2. Add it in GitHub repository secrets as `NPM_TOKEN` (Settings → Secrets and variables → Actions).
-3. Bump `package.json` version, commit, and push.
-4. Create a GitHub Release (for example `v1.0.1`).
-
-The workflow runs tests first and then publishes with provenance enabled.
-
-If publishing fails with permissions, verify org membership and package access:
-
-```bash
-npm org ls supejs
-npm access ls-packages <your-npm-username>
-npm token list
 ```
 
 ## Development
