@@ -147,3 +147,65 @@ test("running supe without arguments shows the help menu", () => {
   assert.match(output, /Usage:\n  supe <command> \[options\]/);
   assert.match(output, /Start fast:/);
 });
+
+
+test("README installer URLs and installer files stay aligned", () => {
+  const readme = fs.readFileSync(path.join(process.cwd(), "README.md"), "utf8");
+  const files = [
+    "supe-install.sh",
+    "supe-install.sh.sha256",
+    "supe-install.ps1",
+    "supe-install.ps1.sha256",
+  ];
+
+  files.forEach((name) => {
+    assert.ok(
+      readme.includes(
+        `https://raw.githubusercontent.com/gwon-omega/supe.js/main/scripts/${name}`,
+      ),
+    );
+    assert.ok(fs.existsSync(path.join(process.cwd(), "scripts", name)));
+  });
+
+  assert.ok(!readme.includes("raw.githubusercontent.com/supejs/supe"));
+});
+
+
+test("packaging metadata uses canonical GitHub repository URL", () => {
+  const nuspec = fs.readFileSync(
+    path.join(process.cwd(), "packaging/chocolatey/supe.nuspec"),
+    "utf8",
+  );
+  assert.match(nuspec, /<projectUrl>https:\/\/github\.com\/gwon-omega\/supe\.js<\/projectUrl>/);
+  assert.ok(!nuspec.includes("github.com/supejs/supe"));
+});
+
+
+test("installer and homebrew URLs use canonical repository hosts", () => {
+  const readme = fs.readFileSync(path.join(process.cwd(), "README.md"), "utf8");
+  const formula = fs.readFileSync(
+    path.join(process.cwd(), "packaging/homebrew/supe.rb"),
+    "utf8",
+  );
+
+  [
+    "https://raw.githubusercontent.com/gwon-omega/supe.js/main/scripts/supe-install.sh",
+    "https://raw.githubusercontent.com/gwon-omega/supe.js/main/scripts/supe-install.sh.sha256",
+    "https://raw.githubusercontent.com/gwon-omega/supe.js/main/scripts/supe-install.ps1",
+    "https://raw.githubusercontent.com/gwon-omega/supe.js/main/scripts/supe-install.ps1.sha256",
+  ].forEach((url) => assert.ok(readme.includes(url), `missing URL in README: ${url}`));
+
+  assert.match(formula, /homepage "https:\/\/github\.com\/gwon-omega\/supe\.js"/);
+  assert.match(
+    formula,
+    /url "https:\/\/github\.com\/gwon-omega\/supe\.js\/archive\/refs\/tags\/v[0-9]+\.[0-9]+\.[0-9]+\.tar\.gz"/,
+  );
+});
+
+
+test("repository clone commands are documented", () => {
+  const readme = fs.readFileSync(path.join(process.cwd(), "README.md"), "utf8");
+  assert.ok(readme.includes("git clone https://github.com/gwon-omega/supe.js.git"));
+  assert.ok(readme.includes("git clone git@github.com:gwon-omega/supe.js.git"));
+  assert.ok(readme.includes("gh repo clone gwon-omega/supe.js"));
+});

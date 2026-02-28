@@ -1,7 +1,7 @@
 class Supe < Formula
   desc "Supe.js — scaffold planning and starter catalog CLI"
-  homepage "https://github.com/supejs/supe"
-  url "https://github.com/supejs/supe/archive/refs/tags/v1.0.1.tar.gz"
+  homepage "https://github.com/gwon-omega/supe.js"
+  url "https://github.com/gwon-omega/supe.js/archive/refs/tags/v1.0.1.tar.gz"
   sha256 "EBF23B135AD62D012ABF3CCE5A4522329B650FEE47968D708534EAA645AF8E77"
   license "MIT"
 

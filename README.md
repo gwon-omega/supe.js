@@ -18,6 +18,21 @@ npm link
 .\scripts\supe.ps1
 ```
 
+
+Install from source repo (HTTPS/SSH/GitHub CLI):
+
+```bash
+git clone https://github.com/gwon-omega/supe.js.git
+# or SSH
+git clone git@github.com:gwon-omega/supe.js.git
+# or GitHub CLI
+gh repo clone gwon-omega/supe.js
+
+cd supe.js
+npm install
+npm install -g @supejs/supe
+```
+
 ## One-line installer (curl/wget / PowerShell)
 
 If you publish `supe` to npm or host the installer script on a reachable URL (for example a GitHub raw URL), users can install system-wide with a one-liner.
@@ -46,10 +61,11 @@ Windows (PowerShell) — do not pipe blindly; download, verify, inspect, then ru
 ```powershell
 # Download installer and checksum
 Invoke-WebRequest -Uri "https://raw.githubusercontent.com/gwon-omega/supe.js/main/scripts/supe-install.ps1" -OutFile supe-install.ps1
-Invoke-WebRequest -Uri "https://raw.githubusercontent.com/gwon-omega/supe.js/main/scripts/supe-install.sh.sha256" -OutFile supe-install.sh.sha256
+Invoke-WebRequest -Uri "https://raw.githubusercontent.com/gwon-omega/supe.js/main/scripts/supe-install.ps1.sha256" -OutFile supe-install.ps1.sha256
 
 # Verify SHA256 of the downloaded script
 Get-FileHash -Algorithm SHA256 .\supe-install.ps1
+Get-Content .\supe-install.ps1.sha256
 
 # If you trust the file after inspection, run it in a temporary bypassed execution policy:
 Set-ExecutionPolicy -Scope Process -ExecutionPolicy Bypass
@@ -60,7 +76,54 @@ Notes:
 
 - The installer prefers `npm install -g @supejs/supe` (published package). If the package isn't published, the installer falls back to `npm install -g .` when executed from a repository clone.
 - Never pipe blindly from the internet in production — download, verify the checksum or signature, inspect the script, then run it.
-- The repo provides `scripts/supe-install` (no extension), `scripts/supe-install.sh` and `scripts/supe-install.ps1` for convenience; prefer installing from the npm registry for trusted installs.
+- The repo provides `scripts/supe-install` (no extension), `scripts/supe-install.sh`, `scripts/supe-install.sh.sha256`, `scripts/supe-install.ps1`, and `scripts/supe-install.ps1.sha256` for convenience; prefer installing from the npm registry for trusted installs.
+
+
+### GitHub token scope troubleshooting
+
+If you are using a **fine-grained GitHub personal access token** and links to private repository content fail, `Metadata: Read-only` is not enough by itself. Add at least:
+
+- **Repository permissions → Contents: Read-only**
+- **Repository permissions → Metadata: Read-only**
+
+Without `Contents` permission, GitHub raw/content URLs and API endpoints for file contents can return permission or not-found style errors even when metadata endpoints work.
+
+
+
+### URL verification checks (Linux/macOS/Windows/Homebrew)
+
+Use these quick checks to confirm installer URLs are reachable from your machine/network:
+
+```bash
+# Linux/macOS: script endpoints should return HTTP 200
+curl -I https://raw.githubusercontent.com/gwon-omega/supe.js/main/scripts/supe-install.sh
+curl -I https://raw.githubusercontent.com/gwon-omega/supe.js/main/scripts/supe-install.sh.sha256
+curl -I https://raw.githubusercontent.com/gwon-omega/supe.js/main/scripts/supe-install.ps1
+curl -I https://raw.githubusercontent.com/gwon-omega/supe.js/main/scripts/supe-install.ps1.sha256
+
+# Homebrew formula source tarball
+curl -I https://github.com/gwon-omega/supe.js/archive/refs/tags/v1.0.1.tar.gz
+```
+
+```powershell
+# Windows PowerShell
+Invoke-WebRequest -Method Head -Uri "https://raw.githubusercontent.com/gwon-omega/supe.js/main/scripts/supe-install.ps1"
+Invoke-WebRequest -Method Head -Uri "https://raw.githubusercontent.com/gwon-omega/supe.js/main/scripts/supe-install.ps1.sha256"
+```
+
+If your network/proxy blocks GitHub raw URLs, the recommended fallback is still:
+
+```bash
+npm install -g @supejs/supe
+```
+
+### create-super-app command notes
+
+- `create-super-app` is a binary exposed by this package (`@supejs/supe`) after global install.
+- Reliable options:
+  - `npm install -g @supejs/supe` then run `create-super-app my-app`
+  - `npx @supejs/supe init my-app`
+- `npx create-super-app` can 404 unless a separate `create-super-app` package is published.
 
 ## CLI
 
