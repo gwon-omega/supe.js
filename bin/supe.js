@@ -23,6 +23,14 @@ function printHelp() {
   console.log(`supe.js CLI
 
 Usage:
+  supe <command> [options]
+
+Start fast:
+  supe init my-app --yes                 Create a production starter quickly
+  supe preset --list                     Browse curated starter presets
+  supe starter my-app --framework next   Preview scaffold plan before execution
+
+Core commands:
   supe demo
   supe doctor [--json]
   supe install-hints [--json]
@@ -35,6 +43,10 @@ Usage:
   supe starter <project-name> [--framework <name>] [--package-manager <pm>] [--ui <lib...>] [--json]
   supe init [project-name] [--framework <id>] [--ui <id>] [--template <id>] [--addons <csv>] [--pm <id>] [--yes] [--no-install]
   supe shell
+
+Tips:
+  - Run 'supe --help' any time to return to this menu.
+  - Use '--json' for machine-readable output in scripts.
 `);
 }
 
@@ -85,10 +97,11 @@ export function main(argv = process.argv.slice(2)) {
   const json = argv.includes("--json");
 
   if (!command) {
-    return launchSystemShell();
+    printHelp();
+    return 0;
   }
 
-  if (command === "--help" || command === "-h") {
+  if (command === "--help" || command === "-h" || command === "help") {
     printHelp();
     return 0;
   }

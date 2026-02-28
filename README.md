@@ -11,8 +11,10 @@ npm install
 ## CLI
 
 ```bash
-node bin/supe.js --help
+node bin/supe.js
 ```
+
+Running `supe` without arguments now opens a command menu so developers can quickly discover the next action.
 
 ### Core commands
 
@@ -29,6 +31,15 @@ supe preset [--list] [--name <preset-id>] [project-name] [--json]
 supe starter <project-name> [--framework <name>] [--package-manager <pm>] [--ui <lib...>] [--json]
 supe init [project-name] [--framework <id>] [--ui <id>] [--template <id>] [--addons <csv>] [--pm <id>] [--yes] [--no-install]
 supe shell
+```
+
+### Recommended flow (dev friendly)
+
+```bash
+supe
+supe preset --list
+supe starter my-app --framework react --ui tailwind
+supe init my-app --yes
 ```
 
 ## Starter templates (presets)
@@ -63,10 +74,14 @@ npm publish --access=public
 <<<<<<< ours
 <<<<<<< ours
 <<<<<<< ours
+<<<<<<< ours
+=======
+>>>>>>> theirs
 Scaffold a new app from the published package with:
 
 ````bash
 npx create-super-app my-app
+<<<<<<< ours
 =======
 =======
 >>>>>>> theirs
@@ -75,11 +90,16 @@ npx create-super-app my-app
 =======
 >>>>>>> theirs
 =======
+>>>>>>> theirs
+=======
+```
+
 >>>>>>> theirs
 Scaffold a new app after installation with:
 
 ```bash
 supe init my-app
+<<<<<<< ours
 <<<<<<< ours
 <<<<<<< ours
 <<<<<<< ours
@@ -94,6 +114,9 @@ supe init my-app
 =======
 >>>>>>> theirs
 ````
+=======
+```
+>>>>>>> theirs
 
 If you are logged into a different npm account, switch or re-authenticate before publishing:
 
