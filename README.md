@@ -50,7 +50,6 @@ Generate one with:
 node bin/supe.js preset my-app --name next-admin-dashboard --json
 ```
 
-
 ## Publishing
 
 This package is published as **`@supejs/supe`**.
@@ -66,7 +65,7 @@ npm publish --access=public
 <<<<<<< ours
 Scaffold a new app from the published package with:
 
-```bash
+````bash
 npx create-super-app my-app
 =======
 =======
@@ -94,7 +93,7 @@ supe init my-app
 >>>>>>> theirs
 =======
 >>>>>>> theirs
-```
+````
 
 If you are logged into a different npm account, switch or re-authenticate before publishing:
 
