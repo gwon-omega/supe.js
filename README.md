@@ -48,6 +48,22 @@ Generate one with:
 node bin/supe.js preset my-app --name next-admin-dashboard --json
 ```
 
+
+## Publishing
+
+This package is published as **`@gwon-omega/supe.js`** to avoid npm unscoped-name collisions.
+
+```bash
+npm publish --access=public
+```
+
+If you are logged into a different npm account, switch or re-authenticate before publishing:
+
+```bash
+npm whoami
+npm login
+```
+
 ## Repository ownership
 
 This repository is owned by **@gwon-omega** with **@supejs/developers** as the required code owners team for reviews.
