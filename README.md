@@ -51,10 +51,16 @@ node bin/supe.js preset my-app --name next-admin-dashboard --json
 
 ## Publishing
 
-This package is published as **`@gwon-omega/supe.js`** to avoid npm unscoped-name collisions.
+This package is published as **`@supejs/supe`**.
 
 ```bash
 npm publish --access=public
+```
+
+Scaffold a new app from the published package with:
+
+```bash
+npx create-super-app my-app
 ```
 
 If you are logged into a different npm account, switch or re-authenticate before publishing:

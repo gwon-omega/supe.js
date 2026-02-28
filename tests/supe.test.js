@@ -94,3 +94,9 @@ test("published bin entrypoints are executable", () => {
     assert.ok((stat.mode & 0o111) !== 0, `${binPath} must be executable`);
   });
 });
+
+
+test("package metadata exposes create-super-app bin", () => {
+  const pkg = JSON.parse(fs.readFileSync(path.join(process.cwd(), "package.json"), "utf8"));
+  assert.equal(pkg.bin["create-super-app"], "bin/index.js");
+});

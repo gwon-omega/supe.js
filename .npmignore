@@ -1,0 +1,4 @@
+# Keep published tarball lean; snippet dependencies are not needed at runtime
+node_modules
+**/node_modules
+**/node_modules/**
