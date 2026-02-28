@@ -1,0 +1,15 @@
+<?xml version="1.0"?>
+<package>
+  <metadata>
+    <id>supe</id>
+    <version>1.0.1</version>
+    <title>Supe CLI</title>
+    <authors>supejs</authors>
+    <owners>supejs</owners>
+    <projectUrl>https://github.com/supejs/supe</projectUrl>
+    <licenseUrl>https://opensource.org/licenses/MIT</licenseUrl>
+    <requireLicenseAcceptance>false</requireLicenseAcceptance>
+    <description>Supe CLI — scaffold planning and starter catalog</description>
+    <tags>supe cli scaffold</tags>
+  </metadata>
+</package>
