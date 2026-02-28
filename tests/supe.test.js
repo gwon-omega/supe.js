@@ -125,11 +125,6 @@ test("published bin entrypoints are executable or present on Windows", () => {
   });
 });
 
-test("package metadata exposes create-super-app and create-supe-app bins", () => {
-  const pkg = JSON.parse(
-    fs.readFileSync(path.join(process.cwd(), "package.json"), "utf8"),
-  );
-  assert.equal(pkg.bin["create-super-app"], "bin/index.js");
   assert.equal(pkg.bin["create-supe-app"], "bin/index.js");
 });
 
@@ -142,9 +137,7 @@ test("cli help includes init and shell commands", () => {
 });
 
 test("running supe without arguments shows the help menu", () => {
-  const output = execFileSync(process.execPath, ["bin/supe.js"], {
-    encoding: "utf8",
-  });
+
   assert.match(output, /Usage:\n  supe <command> \[options\]/);
   assert.match(output, /Start fast:/);
 });

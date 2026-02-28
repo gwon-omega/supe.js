@@ -24,7 +24,6 @@ npm link
 node bin/supe.js
 ```
 
-Running `supe` without arguments opens an interactive command menu so developers can quickly discover the next action.
 
 ### Core commands
 
@@ -43,20 +42,6 @@ supe init [project-name] [--framework <id>] [--ui <id>] [--template <id>] [--add
 supe shell
 ```
 
-```text
-supe demo
-supe doctor [--json]
-supe install-hints [--json]
-supe profile --user <id> [--base-dir <path>] [--json]
-supe sync --user <id> [--provider <github|gitlab|bitbucket>] [--remote <name>] [--json]
-supe policy-check --file <policy.json> [--framework <name>] [--package-manager <pm>] [--ui <lib...>] [--json]
-supe design [--theme <neon_noir|calm_pro|sunrise_flow>] [--json]
-supe catalog [--json]
-supe preset [--list] [--name <preset-id>] [project-name] [--json]
-supe starter <project-name> [--framework <name>] [--package-manager <pm>] [--ui <lib...>] [--json]
-supe init [project-name] [--framework <id>] [--ui <id>] [--template <id>] [--addons <csv>] [--pm <id>] [--yes] [--no-install]
-supe shell
-```
 
 ### Recommended flow (dev friendly)
 
@@ -100,7 +85,7 @@ Scaffold a new app from the published package with:
 npx create-super-app my-app
 ```
 
-Or scaffold locally after installing the package with:
+
 
 ```bash
 supe init my-app
