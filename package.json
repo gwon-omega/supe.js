@@ -1,8 +1,18 @@
 {
-<<<<<<< HEAD
   "name": "supe.js",
   "version": "1.0.0",
   "description": "supe.js CLI toolkit for scaffold planning, validations, and starter catalogs",
+  "type": "module",
+  "main": "src/supe.js",
+  "bin": {
+    "supe": "bin/supe.js",
+    "supe-js": "bin/supe.js",
+    "super-app": "bin/supe.js",
+    "create-super-app": "bin/index.js"
+  },
+  "scripts": {
+    "test": "node --test tests/*.test.js"
+  },
   "keywords": [
     "supe.js",
     "super-app",
@@ -11,73 +21,28 @@
     "framework-catalog",
     "cli"
   ],
-  "type": "module",
-  "main": "src/supe.js",
-  "bin": {
-    "supe": "bin/supe.js",
-    "supe-js": "bin/supe.js",
-    "super-app": "bin/supe.js"
-  },
-  "scripts": {
-    "test": "node --test"
-  },
-  "publishConfig": {
-    "access": "public"
-  },
+  "license": "MIT",
   "engines": {
     "node": ">=18"
   },
-  "files": [
-    "bin/",
-    "src/",
-    "README.md",
-    "LICENSE"
-  ]
-=======
-  "name": "create-super-app",
-  "version": "0.1.0",
-  "description": "Opinionated web app scaffolder for Next.js, Nuxt, Astro, Remix and more.",
-  "type": "module",
-  "bin": {
-    "create-super-app": "bin/index.js"
-  },
-  "exports": {
-    ".": "./bin/index.js"
-  },
-  "scripts": {
-    "dev": "node bin/index.js --help",
-    "build": "echo 'esm only'",
-    "test": "node -e \"console.log('No tests yet')\"",
-    "lint": "eslint . --ext .js,.ts,.tsx",
-    "format": "prettier --write .",
-    "format:check": "prettier --check ."
-  },
-  "keywords": [
-    "scaffold",
-    "nextjs",
-    "nuxt",
-    "astro",
-    "remix",
-    "starter"
-  ],
-  "author": "",
-  "license": "MIT",
   "dependencies": {
     "chalk": "^5.3.0",
     "commander": "^12.1.0",
+    "degit": "^2.8.4",
     "execa": "^9.2.0",
     "fs-extra": "^11.2.0",
     "inquirer": "^9.2.12",
     "mustache": "^4.2.0",
     "ora": "^8.0.1",
-    "semver": "^7.6.3",
-    "degit": "^2.8.4"
+    "semver": "^7.6.3"
   },
-  "devDependencies": {
-    "eslint": "^8.55.0",
-    "prettier": "^3.1.1",
-    "@types/node": "^20.10.4"
-  },
-  "packageManager": "pnpm@10.15.0"
->>>>>>> dc251fa (initial commit)
+  "files": [
+    "bin/",
+    "lib/",
+    "src/",
+    "templates/",
+    "addon-snippets/",
+    "README.md",
+    "LICENSE"
+  ]
 }

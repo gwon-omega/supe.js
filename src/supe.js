@@ -286,7 +286,11 @@ export function queryStarterPresets() {
     { id: "react-fast", framework: "react", packageManager: "npm", ui: ["tailwind", "framer_motion"], maturity: "stable", category: "frontend", description: "Fast React starter for production apps." },
     { id: "next-enterprise", framework: "next", packageManager: "npm", ui: ["tailwind", "mui"], maturity: "stable", category: "fullstack", description: "Opinionated Next.js baseline for enterprise teams." },
     { id: "edge-vinext", framework: "cloudflare_vinext", packageManager: "pnpm", ui: ["tailwind"], maturity: "beta", category: "edge", description: "Cloudflare-friendly Vinext starter profile." },
-    { id: "astro-content", framework: "astro", packageManager: "pnpm", ui: ["tailwind"], maturity: "stable", category: "fullstack", description: "Astro baseline for docs/content products." }
+    { id: "astro-content", framework: "astro", packageManager: "pnpm", ui: ["tailwind"], maturity: "stable", category: "fullstack", description: "Astro baseline for docs/content products." },
+    { id: "next-admin-dashboard", framework: "next", packageManager: "pnpm", ui: ["tailwind", "radix"], maturity: "stable", category: "fullstack", description: "Admin dashboard focused starter with component primitives." },
+    { id: "next-ecommerce", framework: "next", packageManager: "pnpm", ui: ["tailwind", "shadcn"], maturity: "stable", category: "fullstack", description: "E-commerce starter with checkout-ready UI stack." },
+    { id: "astro-blog", framework: "astro", packageManager: "pnpm", ui: ["tailwind"], maturity: "stable", category: "fullstack", description: "Blog/content publishing template optimized for speed." },
+    { id: "remix-saas", framework: "remix", packageManager: "npm", ui: ["tailwind", "headlessui"], maturity: "beta", category: "fullstack", description: "SaaS-oriented Remix preset for authenticated products." }
   ];
 }
 
