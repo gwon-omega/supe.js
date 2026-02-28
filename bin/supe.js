@@ -16,7 +16,7 @@ import {
   scaffoldStarterApp,
   securityPolicyReport,
   syncPlan,
-  userWorkspace
+  userWorkspace,
 } from "../src/supe.js";
 
 function printHelp() {
@@ -53,7 +53,9 @@ Tips:
 function argValue(argv, key, fallback = "") {
   const index = argv.indexOf(key);
   if (index === -1) return fallback;
-  return argv[index + 1] && !argv[index + 1].startsWith("--") ? argv[index + 1] : fallback;
+  return argv[index + 1] && !argv[index + 1].startsWith("--")
+    ? argv[index + 1]
+    : fallback;
 }
 
 function parseUiArgs(argv) {
@@ -67,19 +69,24 @@ function parseUiArgs(argv) {
   return values;
 }
 
-
 function launchSystemShell() {
-  const shellCmd = process.platform === "win32"
-    ? process.env.ComSpec || "powershell.exe"
-    : process.env.SHELL || "bash";
+  const shellCmd =
+    process.platform === "win32"
+      ? process.env.ComSpec || "powershell.exe"
+      : process.env.SHELL || "bash";
   const proc = spawnSync(shellCmd, { stdio: "inherit", shell: false });
   if (proc.error) throw proc.error;
   return typeof proc.status === "number" ? proc.status : 0;
 }
 
 function runInitCommand(initArgs) {
-  const entry = path.resolve(path.dirname(fileURLToPath(import.meta.url)), "index.js");
-  const proc = spawnSync(process.execPath, [entry, ...initArgs], { stdio: "inherit" });
+  const entry = path.resolve(
+    path.dirname(fileURLToPath(import.meta.url)),
+    "index.js",
+  );
+  const proc = spawnSync(process.execPath, [entry, ...initArgs], {
+    stdio: "inherit",
+  });
   if (proc.error) throw proc.error;
   return typeof proc.status === "number" ? proc.status : 0;
 }
@@ -119,7 +126,10 @@ export function main(argv = process.argv.slice(2)) {
   if (command === "install-hints") {
     const hints = installHints();
     if (json) printResult(hints, true);
-    else Object.entries(hints).forEach(([manager, cmd]) => console.log(`- ${manager}: ${cmd}`));
+    else
+      Object.entries(hints).forEach(([manager, cmd]) =>
+        console.log(`- ${manager}: ${cmd}`),
+      );
     return 0;
   }
 
@@ -159,7 +169,12 @@ export function main(argv = process.argv.slice(2)) {
   if (command === "catalog") {
     const catalog = researchCatalog();
     if (json) printResult(catalog, true);
-    else catalog.frameworks.forEach((item) => console.log(`- ${item.id} [${item.category}] ecosystem=${item.ecosystem}`));
+    else
+      catalog.frameworks.forEach((item) =>
+        console.log(
+          `- ${item.id} [${item.category}] ecosystem=${item.ecosystem}`,
+        ),
+      );
     return 0;
   }
 
@@ -172,7 +187,9 @@ export function main(argv = process.argv.slice(2)) {
     }
 
     const name = argValue(argv, "--name", "react-fast");
-    const projectName = argv.find((item, index) => index > 0 && !item.startsWith("--")) || "supe-starter";
+    const projectName =
+      argv.find((item, index) => index > 0 && !item.startsWith("--")) ||
+      "supe-starter";
     printResult(scaffoldFromPreset(projectName, name), json);
     return 0;
   }
@@ -181,7 +198,15 @@ export function main(argv = process.argv.slice(2)) {
     const framework = argValue(argv, "--framework", "react");
     const packageManager = argValue(argv, "--package-manager", "npm");
     const ui = parseUiArgs(argv);
-    printResult(securityPolicyReport(framework, ui, packageManager, argv.includes("--run-intent")), json);
+    printResult(
+      securityPolicyReport(
+        framework,
+        ui,
+        packageManager,
+        argv.includes("--run-intent"),
+      ),
+      json,
+    );
     return 0;
   }
 
@@ -195,11 +220,21 @@ export function main(argv = process.argv.slice(2)) {
 
   if (command === "starter") {
     const projectName = argv[1];
-    if (!projectName || projectName.startsWith("--")) throw new Error("Project name is required for starter command");
+    if (!projectName || projectName.startsWith("--"))
+      throw new Error("Project name is required for starter command");
     const framework = argValue(argv, "--framework", "react");
     const packageManager = argValue(argv, "--package-manager", "npm");
     const ui = parseUiArgs(argv);
-    printResult(scaffoldStarterApp(projectName, framework, ui.length ? ui : ["tailwind"], packageManager, false), json);
+    printResult(
+      scaffoldStarterApp(
+        projectName,
+        framework,
+        ui.length ? ui : ["tailwind"],
+        packageManager,
+        false,
+      ),
+      json,
+    );
     return 0;
   }
 
@@ -215,5 +250,8 @@ function runCli() {
     process.exit(1);
   }
 }
-
-if (import.meta.url === `file://${process.argv[1]}`) runCli();
+if (
+  process.argv[1] &&
+  fileURLToPath(import.meta.url) === path.resolve(process.argv[1])
+)
+  runCli();

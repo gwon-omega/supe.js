@@ -17,7 +17,7 @@ import {
   researchCatalog,
   rankStarterPresets,
   securityPolicyReport,
-  UI_LIBS
+  UI_LIBS,
 } from "../src/supe.js";
 import { main } from "../bin/supe.js";
 
@@ -33,17 +33,36 @@ test("save and load", () => {
   const app = new SuperApp();
   app.addGoal("Roadmap", 1);
   app.addTask("Roadmap", "Define milestones");
-  const file = path.join(fs.mkdtempSync(path.join(os.tmpdir(), "supe-")), "state.json");
+  const file = path.join(
+    fs.mkdtempSync(path.join(os.tmpdir(), "supe-")),
+    "state.json",
+  );
   app.save(file);
   const loaded = SuperApp.load(file);
   assert.equal(loaded.goals[0].name, "Roadmap");
 });
 
 test("security and validation checks", () => {
-  assert.throws(() => generateScaffoldPlan("../evil", "react", ["tailwind"], "npm"), /Invalid project name/);
-  assert.throws(() => generateScaffoldPlan("con", "react", ["tailwind"], "npm"), /reserved on Windows/);
-  assert.throws(() => generateScaffoldPlan("bad", "next", ["tailwind"], "deno"), /Incompatible package manager/);
-  assert.ok(generateScaffoldPlan("edge-kit", "deno_fresh", ["tailwind"], "deno")[0].startsWith("deno run -A -r jsr:@fresh/create"));
+  assert.throws(
+    () => generateScaffoldPlan("../evil", "react", ["tailwind"], "npm"),
+    /Invalid project name/,
+  );
+  assert.throws(
+    () => generateScaffoldPlan("con", "react", ["tailwind"], "npm"),
+    /reserved on Windows/,
+  );
+  assert.throws(
+    () => generateScaffoldPlan("bad", "next", ["tailwind"], "deno"),
+    /Incompatible package manager/,
+  );
+  assert.ok(
+    generateScaffoldPlan(
+      "edge-kit",
+      "deno_fresh",
+      ["tailwind"],
+      "deno",
+    )[0].startsWith("deno run -A -r jsr:@fresh/create"),
+  );
   const report = securityPolicyReport("react", ["tailwind"], "npm", true);
   assert.equal(report.checks.find((c) => c.id === "run_mode").status, "warn");
 });
@@ -69,8 +88,13 @@ test("catalog includes broad framework/library coverage", () => {
 
 test("install hints and package manager map", () => {
   const hints = installHints();
-  ["npm", "pnpm", "yarn", "bun", "deno"].forEach((manager) => assert.ok(hints[manager]));
-  assert.deepEqual(new Set(Object.keys(PM_RUNNERS)), new Set(["npm", "pnpm", "yarn", "bun", "deno"]));
+  ["npm", "pnpm", "yarn", "bun", "deno"].forEach((manager) =>
+    assert.ok(hints[manager]),
+  );
+  assert.deepEqual(
+    new Set(Object.keys(PM_RUNNERS)),
+    new Set(["npm", "pnpm", "yarn", "bun", "deno"]),
+  );
 });
 
 test("preset catalog includes expanded templates", () => {
@@ -80,7 +104,7 @@ test("preset catalog includes expanded templates", () => {
     "next-admin-dashboard",
     "next-ecommerce",
     "astro-blog",
-    "remix-saas"
+    "remix-saas",
   ].forEach((id) => assert.ok(presets.find((preset) => preset.id === id)));
 });
 
@@ -88,69 +112,39 @@ test("cli help exits cleanly", () => {
   assert.equal(main(["--help"]), 0);
 });
 
-
-test("published bin entrypoints are executable", () => {
+test("published bin entrypoints are executable or present on Windows", () => {
   ["bin/supe.js", "bin/index.js"].forEach((binPath) => {
-    const stat = fs.statSync(path.join(process.cwd(), binPath));
-    assert.ok((stat.mode & 0o111) !== 0, `${binPath} must be executable`);
+    const full = path.join(process.cwd(), binPath);
+    const stat = fs.statSync(full);
+    if (process.platform === "win32") {
+      // On Windows executable bits aren't meaningful; ensure file exists
+      assert.ok(fs.existsSync(full), `${binPath} must exist on Windows`);
+    } else {
+      assert.ok((stat.mode & 0o111) !== 0, `${binPath} must be executable`);
+    }
   });
 });
 
-<<<<<<< ours
-
-<<<<<<< ours
-<<<<<<< ours
-<<<<<<< ours
-<<<<<<< ours
-<<<<<<< ours
-test("package metadata exposes create-super-app bin", () => {
-  const pkg = JSON.parse(fs.readFileSync(path.join(process.cwd(), "package.json"), "utf8"));
+test("package metadata exposes create-super-app and create-supe-app bins", () => {
+  const pkg = JSON.parse(
+    fs.readFileSync(path.join(process.cwd(), "package.json"), "utf8"),
+  );
   assert.equal(pkg.bin["create-super-app"], "bin/index.js");
-=======
-=======
->>>>>>> theirs
-=======
->>>>>>> theirs
-=======
->>>>>>> theirs
-=======
->>>>>>> theirs
-=======
-test("package metadata exposes create-super-app bin", () => {
-  const pkg = JSON.parse(fs.readFileSync(path.join(process.cwd(), "package.json"), "utf8"));
-  assert.equal(pkg.bin["create-super-app"], "bin/index.js");
-});
-
->>>>>>> theirs
-test("package metadata exposes supe init alias", () => {
-  const pkg = JSON.parse(fs.readFileSync(path.join(process.cwd(), "package.json"), "utf8"));
   assert.equal(pkg.bin["create-supe-app"], "bin/index.js");
 });
 
 test("cli help includes init and shell commands", () => {
-  const output = execFileSync(process.execPath, ["bin/supe.js", "--help"], { encoding: "utf8" });
+  const output = execFileSync(process.execPath, ["bin/supe.js", "--help"], {
+    encoding: "utf8",
+  });
   assert.match(output, /supe init \[project-name\]/);
   assert.match(output, /supe shell/);
-<<<<<<< ours
-<<<<<<< ours
-<<<<<<< ours
-<<<<<<< ours
-<<<<<<< ours
->>>>>>> theirs
-=======
->>>>>>> theirs
-=======
->>>>>>> theirs
-=======
->>>>>>> theirs
-=======
->>>>>>> theirs
-=======
 });
 
 test("running supe without arguments shows the help menu", () => {
-  const output = execFileSync(process.execPath, ["bin/supe.js"], { encoding: "utf8" });
+  const output = execFileSync(process.execPath, ["bin/supe.js"], {
+    encoding: "utf8",
+  });
   assert.match(output, /Usage:\n  supe <command> \[options\]/);
   assert.match(output, /Start fast:/);
->>>>>>> theirs
 });

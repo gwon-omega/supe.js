@@ -1,5 +1,5 @@
 {
-  "name": "@supejs/supe",
+  "name": "supe",
   "version": "1.0.1",
   "description": "supe.js CLI toolkit for scaffold planning, validations, and starter catalogs",
   "type": "module",
@@ -12,7 +12,10 @@
     "create-super-app": "bin/index.js"
   },
   "scripts": {
-    "test": "node --test tests/*.test.js"
+    "test": "node --test tests/*.test.js",
+    "link": "npm link",
+    "install:local": "npm run link",
+    "postinstall": "sh -c 'chmod +x bin/* || true'"
   },
   "keywords": [
     "supe.js",

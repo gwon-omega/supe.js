@@ -8,15 +8,40 @@ Supe.js is a CLI toolkit for scaffold planning, policy checks, design guidance, 
 npm install
 ```
 
+For local development, link the package globally so `supe` becomes available system-wide:
+
+```bash
+npm link
+# or, from the repo root on Unix/macOS
+./scripts/install.sh
+# on Windows (PowerShell)
+.\scripts\install.ps1
+```
+
 ## CLI
 
 ```bash
 node bin/supe.js
 ```
 
-Running `supe` without arguments now opens a command menu so developers can quickly discover the next action.
+Running `supe` without arguments opens an interactive command menu so developers can quickly discover the next action.
 
 ### Core commands
+
+```text
+supe demo
+supe doctor [--json]
+supe install-hints [--json]
+supe profile --user <id> [--base-dir <path>] [--json]
+supe sync --user <id> [--provider <github|gitlab|bitbucket>] [--remote <name>] [--json]
+supe policy-check --file <policy.json> [--framework <name>] [--package-manager <pm>] [--ui <lib...>] [--json]
+supe design [--theme <neon_noir|calm_pro|sunrise_flow>] [--json]
+supe catalog [--json]
+supe preset [--list] [--name <preset-id>] [project-name] [--json]
+supe starter <project-name> [--framework <name>] [--package-manager <pm>] [--ui <lib...>] [--json]
+supe init [project-name] [--framework <id>] [--ui <id>] [--template <id>] [--addons <csv>] [--pm <id>] [--yes] [--no-install]
+supe shell
+```
 
 ```text
 supe demo
@@ -63,60 +88,23 @@ node bin/supe.js preset my-app --name next-admin-dashboard --json
 
 ## Publishing
 
-This package is published as **`@supejs/supe`**.
+This package is published as **supe**.
 
 ```bash
 npm publish --access=public
 ```
 
-<<<<<<< ours
-<<<<<<< ours
-<<<<<<< ours
-<<<<<<< ours
-<<<<<<< ours
-<<<<<<< ours
-=======
->>>>>>> theirs
 Scaffold a new app from the published package with:
 
-````bash
+```bash
 npx create-super-app my-app
-<<<<<<< ours
-=======
-=======
->>>>>>> theirs
-=======
->>>>>>> theirs
-=======
->>>>>>> theirs
-=======
->>>>>>> theirs
-=======
 ```
 
->>>>>>> theirs
-Scaffold a new app after installation with:
+Or scaffold locally after installing the package with:
 
 ```bash
 supe init my-app
-<<<<<<< ours
-<<<<<<< ours
-<<<<<<< ours
-<<<<<<< ours
-<<<<<<< ours
->>>>>>> theirs
-=======
->>>>>>> theirs
-=======
->>>>>>> theirs
-=======
->>>>>>> theirs
-=======
->>>>>>> theirs
-````
-=======
 ```
->>>>>>> theirs
 
 If you are logged into a different npm account, switch or re-authenticate before publishing:
 
@@ -127,12 +115,12 @@ npm login
 
 ## Repository ownership
 
-This repository is owned by **@gwon-omega** with **@supejs/developers** as the required code owners team for reviews.
+This repository is maintained by the Supe.js maintainers: **@supejs/developers**.
 
 ## Development checks
 
 ```bash
 npm test
-python3 -m unittest discover -s tests -v
+node --test tests/*.test.js
 node bin/supe.js --help
 ```
