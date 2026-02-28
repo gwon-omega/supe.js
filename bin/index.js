@@ -12,7 +12,7 @@ const program = new Command();
 
 program
   .name("create-super-app")
-  .argument("<project-name>", "Project directory name")
+  .argument("[project-name]", "Project directory name")
   .option("--framework <id>", "Framework id (nextjs|nuxt|astro|remix)")
   .option(
     "--ui <id>",
@@ -30,11 +30,25 @@ program
   .option("--yes", "Accept sensible defaults", false)
   .option("--no-install", "Skip dependency installation")
   .action(async (projectName, opts) => {
-    const flags = normalizeFlags(projectName, opts);
+    let resolvedProjectName = projectName;
+    if (!resolvedProjectName) {
+      const { projectName: promptedName } = await import("inquirer").then((m) =>
+        m.default.prompt([{
+          type: "input",
+          name: "projectName",
+          message: "Project name?",
+          default: "my-super-app",
+          validate: (value) => (value && value.trim() ? true : "Project name is required"),
+        }])
+      );
+      resolvedProjectName = promptedName.trim();
+    }
+
+    const flags = normalizeFlags(resolvedProjectName, opts);
     const answers = await askQuestions(flags);
 
     // 1) Create base project
-    const projectPath = await createProject({ ...answers, projectName });
+    const projectPath = await createProject({ ...answers, projectName: resolvedProjectName });
 
     // 2) Install UI library & drop shims
     await installUi({
@@ -54,7 +68,7 @@ program
     await ensureGitInit(projectPath);
 
     console.log("\n✅ All set! Next:");
-    console.log(`  cd ${projectName}`);
+    console.log(`  cd ${resolvedProjectName}`);
     if (opts.install === false) {
       console.log(`  ${answers.pm} install`);
     }

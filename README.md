@@ -27,6 +27,8 @@ supe design [--theme <neon_noir|calm_pro|sunrise_flow>] [--json]
 supe catalog [--json]
 supe preset [--list] [--name <preset-id>] [project-name] [--json]
 supe starter <project-name> [--framework <name>] [--package-manager <pm>] [--ui <lib...>] [--json]
+supe init [project-name] [--framework <id>] [--ui <id>] [--template <id>] [--addons <csv>] [--pm <id>] [--yes] [--no-install]
+supe shell
 ```
 
 ## Starter templates (presets)
@@ -57,10 +59,23 @@ This package is published as **`@supejs/supe`**.
 npm publish --access=public
 ```
 
+<<<<<<< ours
+<<<<<<< ours
 Scaffold a new app from the published package with:
 
 ```bash
 npx create-super-app my-app
+=======
+=======
+>>>>>>> theirs
+Scaffold a new app after installation with:
+
+```bash
+supe init my-app
+<<<<<<< ours
+>>>>>>> theirs
+=======
+>>>>>>> theirs
 ```
 
 If you are logged into a different npm account, switch or re-authenticate before publishing:

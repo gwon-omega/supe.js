@@ -1,5 +1,8 @@
 #!/usr/bin/env node
 import fs from "node:fs";
+import { spawnSync } from "node:child_process";
+import path from "node:path";
+import { fileURLToPath } from "node:url";
 import {
   demo,
   designGuidance,
@@ -30,6 +33,8 @@ Usage:
   supe catalog [--json]
   supe preset [--list] [--name <preset-id>] [project-name] [--json]
   supe starter <project-name> [--framework <name>] [--package-manager <pm>] [--ui <lib...>] [--json]
+  supe init [project-name] [--framework <id>] [--ui <id>] [--template <id>] [--addons <csv>] [--pm <id>] [--yes] [--no-install]
+  supe shell
 `);
 }
 
@@ -50,6 +55,23 @@ function parseUiArgs(argv) {
   return values;
 }
 
+
+function launchSystemShell() {
+  const shellCmd = process.platform === "win32"
+    ? process.env.ComSpec || "powershell.exe"
+    : process.env.SHELL || "bash";
+  const proc = spawnSync(shellCmd, { stdio: "inherit", shell: false });
+  if (proc.error) throw proc.error;
+  return typeof proc.status === "number" ? proc.status : 0;
+}
+
+function runInitCommand(initArgs) {
+  const entry = path.resolve(path.dirname(fileURLToPath(import.meta.url)), "index.js");
+  const proc = spawnSync(process.execPath, [entry, ...initArgs], { stdio: "inherit" });
+  if (proc.error) throw proc.error;
+  return typeof proc.status === "number" ? proc.status : 0;
+}
+
 function printResult(payload, asJson) {
   if (asJson) {
     console.log(JSON.stringify(payload, null, 2));
@@ -59,8 +81,12 @@ function printResult(payload, asJson) {
 }
 
 export function main(argv = process.argv.slice(2)) {
-  const command = argv[0] || "demo";
+  const command = argv[0];
   const json = argv.includes("--json");
+
+  if (!command) {
+    return launchSystemShell();
+  }
 
   if (command === "--help" || command === "-h") {
     printHelp();
@@ -144,6 +170,14 @@ export function main(argv = process.argv.slice(2)) {
     const ui = parseUiArgs(argv);
     printResult(securityPolicyReport(framework, ui, packageManager, argv.includes("--run-intent")), json);
     return 0;
+  }
+
+  if (command === "init") {
+    return runInitCommand(argv.slice(1));
+  }
+
+  if (command === "shell") {
+    return launchSystemShell();
   }
 
   if (command === "starter") {
