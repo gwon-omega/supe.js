@@ -24,9 +24,9 @@ If you publish `supe` to npm or host the installer script on a reachable URL (fo
 
 ```bash
 # install published package via npm (recommended)
-curl -fsSL https://raw.githubusercontent.com/<owner>/supe/main/scripts/bootstrap-install.sh | sh
+curl -fsSL https://raw.githubusercontent.com/<owner>/supe/main/scripts/supe-install.sh | sh
 # or using wget
-wget -qO- https://raw.githubusercontent.com/<owner>/supe/main/scripts/bootstrap-install.sh | sh
+wget -qO- https://raw.githubusercontent.com/<owner>/supe/main/scripts/supe-install.sh | sh
 ```
 
 Notes:

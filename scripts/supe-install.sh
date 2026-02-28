@@ -1,26 +1,26 @@
 #!/usr/bin/env sh
 set -e
 
-echo "supe bootstrap installer"
+echo "supe installer (supe-install.sh)"
 
 if ! command -v npm >/dev/null 2>&1; then
   echo "npm is required. Install Node.js/npm and re-run this script." >&2
   exit 1
 fi
 
-# Prefer installing published package from npm if available
-if npm view supe@latest >/dev/null 2>&1; then
-  echo "Installing published 'supe' package globally..."
+# Prefer installing published scoped package from npm if available
+if npm view @supejs/supe@latest >/dev/null 2>&1; then
+  echo "Installing published '@supejs/supe' package globally..."
   if [ "$(id -u)" -ne 0 ]; then
     if command -v sudo >/dev/null 2>&1; then
-      sudo npm install -g supe
+      sudo npm install -g @supejs/supe
     else
-      npm install -g supe
+      npm install -g @supejs/supe
     fi
   else
-    npm install -g supe
+    npm install -g @supejs/supe
   fi
-  echo "supe installed globally. Run 'supe --help' to verify."
+  echo "@supejs/supe installed globally. Run 'supe --help' to verify."
   exit 0
 fi
 
