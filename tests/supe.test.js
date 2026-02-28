@@ -12,7 +12,9 @@ import {
   SuperApp,
   generateScaffoldPlan,
   installHints,
+  queryStarterPresets,
   researchCatalog,
+  rankStarterPresets,
   securityPolicyReport,
   UI_LIBS
 } from "../src/supe.js";
@@ -68,6 +70,17 @@ test("install hints and package manager map", () => {
   const hints = installHints();
   ["npm", "pnpm", "yarn", "bun", "deno"].forEach((manager) => assert.ok(hints[manager]));
   assert.deepEqual(new Set(Object.keys(PM_RUNNERS)), new Set(["npm", "pnpm", "yarn", "bun", "deno"]));
+});
+
+test("preset catalog includes expanded templates", () => {
+  const presets = rankStarterPresets(queryStarterPresets());
+  assert.ok(presets.length >= 8);
+  [
+    "next-admin-dashboard",
+    "next-ecommerce",
+    "astro-blog",
+    "remix-saas"
+  ].forEach((id) => assert.ok(presets.find((preset) => preset.id === id)));
 });
 
 test("cli help exits cleanly", () => {
