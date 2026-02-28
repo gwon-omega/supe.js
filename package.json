@@ -8,8 +8,7 @@
     "supe": "bin/supe.js",
     "supe-js": "bin/supe.js",
     "supe-app": "bin/supe.js",
-    "create-supe-app": "bin/index.js",
-    "create-super-app": "bin/index.js"
+    "create-supe-app": "bin/index.js"
   },
   "scripts": {
     "test": "node --test tests/*.test.js"
