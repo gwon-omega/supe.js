@@ -77,45 +77,9 @@ Notes:
 - Never pipe blindly from the internet in production — download, verify the checksum or signature, inspect the script, then run it.
 - The repo provides `scripts/supe-install` (no extension), `scripts/supe-install.sh`, `scripts/supe-install.sh.sha256`, `scripts/supe-install.ps1`, and `scripts/supe-install.ps1.sha256` for convenience; prefer installing from the npm registry for trusted installs.
 
-### GitHub token scope troubleshooting
-
-If you are using a **fine-grained GitHub personal access token** and links to private repository content fail, `Metadata: Read-only` is not enough by itself. Add at least:
-
-- **Repository permissions → Contents: Read-only**
-- **Repository permissions → Metadata: Read-only**
-
-Without `Contents` permission, GitHub raw/content URLs and API endpoints for file contents can return permission or not-found style errors even when metadata endpoints work.
-
-### URL verification checks (Linux/macOS/Windows/Homebrew)
-
-Use these quick checks to confirm installer URLs are reachable from your machine/network:
-
-```bash
-# Linux/macOS: script endpoints should return HTTP 200
-curl -I https://raw.githubusercontent.com/gwon-omega/supe.js/main/scripts/supe-install.sh
-curl -I https://raw.githubusercontent.com/gwon-omega/supe.js/main/scripts/supe-install.sh.sha256
-curl -I https://raw.githubusercontent.com/gwon-omega/supe.js/main/scripts/supe-install.ps1
-curl -I https://raw.githubusercontent.com/gwon-omega/supe.js/main/scripts/supe-install.ps1.sha256
-
-# Homebrew formula source tarball
-curl -I https://github.com/gwon-omega/supe.js/archive/refs/tags/v1.0.1.tar.gz
-```
-
-```powershell
-# Windows PowerShell
-Invoke-WebRequest -Method Head -Uri "https://raw.githubusercontent.com/gwon-omega/supe.js/main/scripts/supe-install.ps1"
-Invoke-WebRequest -Method Head -Uri "https://raw.githubusercontent.com/gwon-omega/supe.js/main/scripts/supe-install.ps1.sha256"
-```
-
-If your network/proxy blocks GitHub raw URLs, the recommended fallback is still:
-
-```bash
-npm install -g @supejs/supe
-```
-
 ### create-super-app command notes
 
-- `create-super-app` is a binary exposed by this package (`@supejs/supe`) after global install.
+- `create-super-app` and `create-supe-app` are binaries exposed by this package (`@supejs/supe`) after global install.
 - Reliable options:
   - `npm install -g @supejs/supe` then run `create-super-app my-app`
   - `npx @supejs/supe init my-app`
@@ -206,7 +170,7 @@ npm login
 
 ## Repository ownership
 
-This repository is maintained by the Supe.js maintainers: **@supejs/developers**.
+This repository is maintained by **@gwon-omega**.
 
 ## Development checks
 
