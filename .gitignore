@@ -1,14 +1,7 @@
-<<<<<<< HEAD
 node_modules/
 coverage/
 .DS_Store
 *.log
 __pycache__/
 .pytest_cache/
-=======
-
-
-#Ignore vscode AI rules
-.github\instructions\codacy.instructions.md
-node_modules
->>>>>>> dc251fa (initial commit)
+/spec-kit-main/
