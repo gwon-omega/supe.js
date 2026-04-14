@@ -1,0 +1,215 @@
+{
+  "name": "supe-vscode",
+  "displayName": "Supe Toolkit",
+  "description": "One-click supe.js scaffolding and package-manager actions from VS Code",
+  "version": "0.0.1",
+  "publisher": "gwon-omega",
+  "license": "MIT",
+  "type": "module",
+  "engines": {
+    "vscode": "^1.90.0"
+  },
+  "categories": [
+    "Other"
+  ],
+  "activationEvents": [
+    "onCommand:supeExtension.quickInit",
+    "onCommand:supeExtension.presetScaffold",
+    "onCommand:supeExtension.packageAction",
+    "onCommand:supeExtension.refreshDependencies",
+    "onCommand:supeExtension.installPackage",
+    "onCommand:supeExtension.uninstallPackage",
+    "onCommand:supeExtension.openDashboard",
+    "onCommand:supeExtension.searchDependencies",
+    "onView:supeDependencies"
+  ],
+  "main": "./src/extension.js",
+  "contributes": {
+    "commands": [
+      {
+        "command": "supeExtension.quickInit",
+        "title": "Supe: Quick Init"
+      },
+      {
+        "command": "supeExtension.presetScaffold",
+        "title": "Supe: Scaffold from Preset"
+      },
+      {
+        "command": "supeExtension.packageAction",
+        "title": "Supe: One-click Package Action"
+      },
+      {
+        "command": "supeExtension.refreshDependencies",
+        "title": "Supe: Refresh Dependency Insights"
+      },
+      {
+        "command": "supeExtension.installPackage",
+        "title": "Supe: Install Package"
+      },
+      {
+        "command": "supeExtension.uninstallPackage",
+        "title": "Supe: Uninstall Package"
+      },
+      {
+        "command": "supeExtension.loadMoreDependencies",
+        "title": "Supe: Load More Dependencies"
+      },
+      {
+        "command": "supeExtension.openDashboard",
+        "title": "Supe: Open Dashboard"
+      },
+      {
+        "command": "supeExtension.searchDependencies",
+        "title": "Supe: Search Dependencies"
+      }
+    ],
+    "viewsContainers": {
+      "activitybar": [
+        {
+          "id": "supeToolkit",
+          "title": "Supe",
+          "icon": "media/supe.svg"
+        }
+      ]
+    },
+    "views": {
+      "supeToolkit": [
+        {
+          "id": "supeDependencies",
+          "name": "Dependencies"
+        }
+      ]
+    },
+    "menus": {
+      "view/title": [
+        {
+          "command": "supeExtension.refreshDependencies",
+          "when": "view == supeDependencies",
+          "group": "navigation@1"
+        },
+        {
+          "command": "supeExtension.installPackage",
+          "when": "view == supeDependencies",
+          "group": "navigation@2"
+        },
+        {
+          "command": "supeExtension.openDashboard",
+          "when": "view == supeDependencies",
+          "group": "navigation@3"
+        },
+        {
+          "command": "supeExtension.searchDependencies",
+          "when": "view == supeDependencies",
+          "group": "navigation@4"
+        }
+      ],
+      "view/item/context": [
+        {
+          "command": "supeExtension.uninstallPackage",
+          "when": "view == supeDependencies",
+          "group": "inline@1"
+        }
+      ]
+    },
+    "keybindings": [
+      {
+        "command": "supeExtension.searchDependencies",
+        "key": "ctrl+alt+f",
+        "mac": "cmd+alt+f",
+        "when": "view == supeDependencies"
+      }
+    ]
+  ,
+    "configuration": {
+      "title": "Supe Toolkit",
+      "properties": {
+        "supeExtension.autoRefreshOnPackageJsonChange": {
+          "type": "boolean",
+          "default": true,
+          "description": "Auto-refresh dependency insights when package.json changes."
+        },
+        "supeExtension.refreshDebounceMs": {
+          "type": "number",
+          "default": 400,
+          "minimum": 100,
+          "description": "Debounce delay for dependency refreshes."
+        },
+        "supeExtension.commandTimeoutMs": {
+          "type": "number",
+          "default": 12000,
+          "minimum": 1000,
+          "description": "Timeout for package manager insight commands."
+        },
+        "supeExtension.cacheTtlMs": {
+          "type": "number",
+          "default": 3000,
+          "minimum": 500,
+          "description": "Cache TTL for dependency insights to reduce repeated work."
+        },
+        "supeExtension.preferredPackageManager": {
+          "type": "string",
+          "enum": [
+            "auto",
+            "npm",
+            "pnpm",
+            "yarn",
+            "bun"
+          ],
+          "default": "auto",
+          "description": "Package manager used by extension operations."
+        },
+        "supeExtension.pageSize": {
+          "type": "number",
+          "default": 200,
+          "minimum": 50,
+          "description": "Number of dependency rows shown per page in the explorer."
+        },
+        "supeExtension.workerTimeoutMs": {
+          "type": "number",
+          "default": 3000,
+          "minimum": 500,
+          "description": "Timeout for background dependency metadata worker."
+        },
+        "supeExtension.telemetryEnabled": {
+          "type": "boolean",
+          "default": false,
+          "description": "Enable extension telemetry logs in output channel."
+        },
+        "supeExtension.privacyMode": {
+          "type": "boolean",
+          "default": true,
+          "description": "When enabled, suppress telemetry payload logging."
+        },
+        "supeExtension.telemetryEndpoint": {
+          "type": "string",
+          "default": "",
+          "description": "HTTPS endpoint for telemetry ingestion."
+        },
+        "supeExtension.telemetryApiKey": {
+          "type": "string",
+          "default": "",
+          "description": "Bearer token used for telemetry endpoint authentication."
+        },
+        "supeExtension.telemetryMaxRetries": {
+          "type": "number",
+          "default": 2,
+          "minimum": 0,
+          "description": "Maximum retry attempts for telemetry delivery."
+        },
+        "supeExtension.telemetryTimeoutMs": {
+          "type": "number",
+          "default": 3000,
+          "minimum": 500,
+          "description": "Timeout for telemetry endpoint requests."
+        }
+      }
+    }
+  },
+  "scripts": {
+    "lint": "node -e \"console.log('No lint configured yet')\"",
+    "test:host": "node ./test/runTest.mjs"
+  },
+  "devDependencies": {
+    "@vscode/test-electron": "^2.5.2"
+  }
+}

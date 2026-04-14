@@ -131,6 +131,22 @@ npm link
 node bin/supe.js
 ```
 
+## VS Code extension (feasibility MVP)
+
+A feasibility-first VS Code extension now lives in `extension/`, designed to bring one-click flows into the editor (similar UX direction to npm-manager / UniGetUI style package actions while keeping `supe.js` CLI as source of truth).
+
+Key commands:
+
+- `Supe: Quick Init`
+- `Supe: Scaffold from Preset`
+- `Supe: One-click Package Action` (install/update/test for npm, pnpm, yarn, bun)
+- `Supe: Install Package` / `Supe: Uninstall Package`
+- `Supe: Refresh Dependency Insights` with dependency tree + update badges + status count
+- Configurable extension settings: auto-refresh, debounce, command timeout, cache TTL, preferred package manager
+- Large-repo UX: lazy pagination + background metadata worker + retry/fallback diagnostics
+- Hybrid UI: dependency TreeView + command dashboard Webview, telemetry endpoint hooks, and signed-VSIX release workflow
+- Interaction UX: mouse + keyboard dependency search from dashboard and command palette filter
+
 ### Core commands
 
 ```text
@@ -169,6 +185,8 @@ Use `supe preset --list` to inspect available starter templates. Current templat
 - `next-ecommerce`
 - `astro-blog`
 - `remix-saas`
+
+Preset scaffold plans include all declared install libraries (UI, animation, and interaction packages) so generated commands match each preset profile.
 
 Generate one with:
 
