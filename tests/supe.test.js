@@ -16,6 +16,7 @@ import {
   queryStarterPresets,
   researchCatalog,
   rankStarterPresets,
+  scaffoldFromPreset,
   securityPolicyReport,
   UI_LIBS,
 } from "../src/supe.js";
@@ -106,6 +107,11 @@ test("preset catalog includes expanded templates", () => {
     "astro-blog",
     "remix-saas",
   ].forEach((id) => assert.ok(presets.find((preset) => preset.id === id)));
+});
+
+test("scaffoldFromPreset keeps non-UI install libraries from preset definitions", () => {
+  const scaffold = scaffoldFromPreset("fast-lab", "react-fast");
+  assert.ok(scaffold.commands.includes("npm add framer-motion"));
 });
 
 test("cli help exits cleanly", () => {

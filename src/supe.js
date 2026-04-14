@@ -72,6 +72,12 @@ export const MOUSE_INTERACTION_LIBS = {
   dnd_kit: { install: "{pm} add @dnd-kit/core", ecosystems: ["node"], focus: "click/drag sortable interactions" }
 };
 
+const INSTALLABLE_LIBRARIES = {
+  ...UI_LIBS,
+  ...ANIMATION_LIBS,
+  ...MOUSE_INTERACTION_LIBS
+};
+
 class Goal {
   constructor(name, priority) {
     this.name = name;
@@ -93,7 +99,7 @@ function validateUserId(userId) {
   }
 }
 
-function ensureCompatibility(framework, uiComponents, packageManager) {
+function ensureCompatibility(framework, libraries, packageManager) {
   const frameworkData = FRAMEWORKS[framework];
   const pmData = PM_RUNNERS[packageManager];
   if (!frameworkData) throw new Error(`Unsupported framework: ${framework}`);
@@ -102,11 +108,11 @@ function ensureCompatibility(framework, uiComponents, packageManager) {
     throw new Error(`Incompatible package manager '${packageManager}' for framework '${framework}'`);
   }
 
-  for (const ui of uiComponents) {
-    const uiData = UI_LIBS[ui];
-    if (!uiData) throw new Error(`Unsupported UI component/library: ${ui}`);
-    if (!uiData.ecosystems.includes(frameworkData.ecosystem)) {
-      throw new Error(`UI component/library '${ui}' is not compatible with ${frameworkData.ecosystem}`);
+  for (const library of libraries) {
+    const libraryData = INSTALLABLE_LIBRARIES[library];
+    if (!libraryData) throw new Error(`Unsupported UI component/library: ${library}`);
+    if (!libraryData.ecosystems.includes(frameworkData.ecosystem)) {
+      throw new Error(`UI component/library '${library}' is not compatible with ${frameworkData.ecosystem}`);
     }
   }
 
@@ -209,9 +215,9 @@ export function designGuidance(theme = "calm_pro") {
   return { theme, ...selected };
 }
 
-export function generateScaffoldPlan(projectName, framework, uiComponents, packageManager, theme = "calm_pro") {
+export function generateScaffoldPlan(projectName, framework, libraries, packageManager, theme = "calm_pro") {
   validateProjectName(projectName);
-  const { frameworkData, pmData } = ensureCompatibility(framework, uiComponents, packageManager);
+  const { frameworkData, pmData } = ensureCompatibility(framework, libraries, packageManager);
 
   const createCommand = pmData.runner
     ? `${pmData.runner} ${frameworkData.starter.replace("{name}", projectName)}`
@@ -219,7 +225,9 @@ export function generateScaffoldPlan(projectName, framework, uiComponents, packa
 
   const steps = [createCommand, `cd ${projectName}`];
   if (pmData.ecosystem === "node") steps.push(platformInstallCommand(packageManager));
-  for (const ui of uiComponents) steps.push(UI_LIBS[ui].install.replaceAll("{pm}", packageManager));
+  for (const library of libraries) {
+    steps.push(INSTALLABLE_LIBRARIES[library].install.replaceAll("{pm}", packageManager));
+  }
 
   const design = designGuidance(theme);
   steps.push(`# Theme preset: ${theme}`);
@@ -301,7 +309,7 @@ export function rankStarterPresets(presets) {
 export function scaffoldFromPreset(projectName, presetId) {
   const preset = queryStarterPresets().find((item) => item.id === presetId);
   if (!preset) throw new Error(`Unknown preset: ${presetId}`);
-  return scaffoldStarterApp(projectName, preset.framework, preset.ui.filter((lib) => UI_LIBS[lib]), preset.packageManager, false);
+  return scaffoldStarterApp(projectName, preset.framework, preset.ui, preset.packageManager, false);
 }
 
 export function researchCatalog() {

@@ -32,6 +32,13 @@
 - Reduce environment diagnostics latency with low-overhead command discovery and cache refresh support
 - Add execution allowlist/timeout guardrails and Deno Fresh run-ready command generation
 - 
+## Phase 6 (in progress)
+- Add VS Code extension feasibility MVP (`extension/`) to provide one-click command execution for `supe.js`
+- Keep CLI-first architecture and expose quick editor workflows (init, preset scaffold, package actions)
+- Add dependency explorer UX in extension with update badges, status-bar counters, and install/uninstall actions
+- Add performance + ops hardening in extension (debounced auto-refresh, cache TTL, timeout controls, diagnostics output)
+- Add extension-host integration tests and signed VSIX/semantic-release pipeline scaffolding
+
 ## Phase 8 (future)
 - Advanced preset provenance (signature chains, transparency logs)
 - Policy-as-code for scaffold governance and organization guardrails (phase started: `policy-check` command + JSON policy file evaluation)
