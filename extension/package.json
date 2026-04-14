@@ -19,6 +19,8 @@
     "onCommand:supeExtension.refreshDependencies",
     "onCommand:supeExtension.installPackage",
     "onCommand:supeExtension.uninstallPackage",
+    "onCommand:supeExtension.openDashboard",
+    "onCommand:supeExtension.searchDependencies",
     "onView:supeDependencies"
   ],
   "main": "./src/extension.js",
@@ -51,6 +53,14 @@
       {
         "command": "supeExtension.loadMoreDependencies",
         "title": "Supe: Load More Dependencies"
+      },
+      {
+        "command": "supeExtension.openDashboard",
+        "title": "Supe: Open Dashboard"
+      },
+      {
+        "command": "supeExtension.searchDependencies",
+        "title": "Supe: Search Dependencies"
       }
     ],
     "viewsContainers": {
@@ -81,6 +91,16 @@
           "command": "supeExtension.installPackage",
           "when": "view == supeDependencies",
           "group": "navigation@2"
+        },
+        {
+          "command": "supeExtension.openDashboard",
+          "when": "view == supeDependencies",
+          "group": "navigation@3"
+        },
+        {
+          "command": "supeExtension.searchDependencies",
+          "when": "view == supeDependencies",
+          "group": "navigation@4"
         }
       ],
       "view/item/context": [
@@ -90,7 +110,15 @@
           "group": "inline@1"
         }
       ]
-    }
+    },
+    "keybindings": [
+      {
+        "command": "supeExtension.searchDependencies",
+        "key": "ctrl+alt+f",
+        "mac": "cmd+alt+f",
+        "when": "view == supeDependencies"
+      }
+    ]
   ,
     "configuration": {
       "title": "Supe Toolkit",
@@ -151,6 +179,28 @@
           "type": "boolean",
           "default": true,
           "description": "When enabled, suppress telemetry payload logging."
+        },
+        "supeExtension.telemetryEndpoint": {
+          "type": "string",
+          "default": "",
+          "description": "HTTPS endpoint for telemetry ingestion."
+        },
+        "supeExtension.telemetryApiKey": {
+          "type": "string",
+          "default": "",
+          "description": "Bearer token used for telemetry endpoint authentication."
+        },
+        "supeExtension.telemetryMaxRetries": {
+          "type": "number",
+          "default": 2,
+          "minimum": 0,
+          "description": "Maximum retry attempts for telemetry delivery."
+        },
+        "supeExtension.telemetryTimeoutMs": {
+          "type": "number",
+          "default": 3000,
+          "minimum": 500,
+          "description": "Timeout for telemetry endpoint requests."
         }
       }
     }

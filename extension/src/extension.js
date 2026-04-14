@@ -19,6 +19,7 @@ import {
 } from "./package-insights.js";
 import { mergeDependencyRowsInWorker } from "./worker-client.js";
 import { trackEvent } from "./telemetry.js";
+import { dashboardHtml } from "./dashboard-webview.js";
 
 function workspaceRoot() {
   const folder = vscode.workspace.workspaceFolders?.[0];
@@ -88,6 +89,7 @@ class DependencyProvider {
   constructor() {
     this.items = [];
     this.visibleCount = 0;
+    this.filterQuery = "";
     this.cacheKey = "";
     this.lastRefreshAt = 0;
     this.refreshVersion = 0;
@@ -101,10 +103,14 @@ class DependencyProvider {
   }
 
   getChildren() {
+    const q = this.filterQuery.trim().toLowerCase();
+    const filtered = q
+      ? this.items.filter((item) => item.name.toLowerCase().includes(q))
+      : this.items;
     const pageSize = extensionConfig().get("pageSize", 200);
     const size = this.visibleCount || pageSize;
-    const visible = this.items.slice(0, size).map((item) => new DependencyItem(item));
-    const remaining = this.items.length - visible.length;
+    const visible = filtered.slice(0, size).map((item) => new DependencyItem(item));
+    const remaining = filtered.length - visible.length;
     if (remaining > 0) visible.push(new LoadMoreItem(remaining));
     return visible;
   }
@@ -112,6 +118,13 @@ class DependencyProvider {
   loadMore() {
     const pageSize = extensionConfig().get("pageSize", 200);
     this.visibleCount = Math.min(this.items.length, (this.visibleCount || pageSize) + pageSize);
+    this._onDidChangeTreeData.fire();
+  }
+
+  setFilter(query) {
+    this.filterQuery = query || "";
+    const pageSize = extensionConfig().get("pageSize", 200);
+    this.visibleCount = pageSize;
     this._onDidChangeTreeData.fire();
   }
 
@@ -224,6 +237,39 @@ async function uninstallPackageCommand(packageName) {
   runInTerminal(buildUninstallPackageCommand(packageManager, target));
 }
 
+async function openDashboardCommand() {
+  const summary = {
+    workspace: workspaceRoot() || "not-open",
+    packageManager: extensionConfig().get("preferredPackageManager", "auto"),
+    cacheTtlMs: extensionConfig().get("cacheTtlMs", 3000),
+    pageSize: extensionConfig().get("pageSize", 200)
+  };
+  const dependencyNames = dependencyProvider.items.map((item) => item.name);
+
+  const panel = vscode.window.createWebviewPanel(
+    "supeDashboard",
+    "Supe Dashboard",
+    vscode.ViewColumn.Beside,
+    { enableScripts: true }
+  );
+  panel.webview.html = dashboardHtml(summary, dependencyNames);
+  panel.webview.onDidReceiveMessage(async (event) => {
+    if (event?.command === "refresh") await vscode.commands.executeCommand("supeExtension.refreshDependencies");
+    if (event?.command === "install") await vscode.commands.executeCommand("supeExtension.installPackage");
+    if (event?.command === "packageAction") await vscode.commands.executeCommand("supeExtension.packageAction");
+    if (event?.command === "searchDependencies") dependencyProvider.setFilter(event?.query || "");
+  });
+}
+
+async function searchDependenciesCommand() {
+  const query = await vscode.window.showInputBox({
+    prompt: "Search dependencies (name contains)",
+    placeHolder: "react"
+  });
+  if (query === undefined) return;
+  dependencyProvider.setFilter(query);
+}
+
 let dependencyProvider;
 let refreshTimer;
 
@@ -245,7 +291,7 @@ export async function activate(context) {
     statusBar.text = `$(package) Supe updates: ${updates}`;
     statusBar.tooltip = "Click to refresh dependency insights";
     statusBar.show();
-    trackEvent(output, extensionConfig(), "refresh.dependencies", { updates });
+    await trackEvent(output, extensionConfig(), "refresh.dependencies", { updates });
 
     if (error) {
       const action = await vscode.window.showErrorMessage(
@@ -296,6 +342,8 @@ export async function activate(context) {
     vscode.commands.registerCommand("supeExtension.presetScaffold", presetScaffoldCommand),
     vscode.commands.registerCommand("supeExtension.packageAction", packageActionCommand),
     vscode.commands.registerCommand("supeExtension.refreshDependencies", refreshWithBadge),
+    vscode.commands.registerCommand("supeExtension.openDashboard", openDashboardCommand),
+    vscode.commands.registerCommand("supeExtension.searchDependencies", searchDependenciesCommand),
     vscode.commands.registerCommand("supeExtension.loadMoreDependencies", () => dependencyProvider.loadMore()),
     vscode.commands.registerCommand("supeExtension.installPackage", installPackageCommand),
     vscode.commands.registerCommand("supeExtension.uninstallPackage", uninstallPackageCommand)

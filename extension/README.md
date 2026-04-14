@@ -32,6 +32,8 @@ This MVP focuses on the same principle: fewer context switches and fast command 
 - ✅ High-leverage approach: keep `supe.js` CLI as the source of truth and make the extension a UI orchestrator.
 - ✅ Improved UX inspired by the referenced repos:
   - dedicated dependency explorer
+  - dashboard webview panel (TreeView + Webview hybrid)
+  - mouse + keyboard dependency search interactions
   - update badges (`MAJOR` / `MINOR` / `PATCH`)
   - status bar update count
   - quick install/uninstall flows
@@ -43,6 +45,7 @@ This MVP focuses on the same principle: fewer context switches and fast command 
   - actionable error dialogs with retry/fallback-to-npm
   - extension-host tests via `@vscode/test-electron`
   - release pipeline template for signed VSIX + semantic-release
+  - telemetry backend support (endpoint + bearer auth + retry policy)
 - ⚠️ For production-quality Marketplace publishing, next steps should include:
   - richer UI (Tree View + Webview hybrid)
   - telemetry backend endpoint (currently output-only toggles)
@@ -51,3 +54,5 @@ This MVP focuses on the same principle: fewer context switches and fast command 
 ## Local development
 
 Open this `extension/` folder in VS Code and run **F5** (Extension Development Host).
+
+Release hardening and provenance controls are documented in `docs/EXTENSION_PROVENANCE_POLICY.md`.

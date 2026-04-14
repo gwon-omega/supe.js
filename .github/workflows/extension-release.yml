@@ -28,6 +28,11 @@ jobs:
       - name: Install extension deps
         run: npm install
 
+      - name: Validate required secrets
+        run: |
+          test -n "${{ secrets.VSCE_PAT }}" || (echo "VSCE_PAT is required" && exit 1)
+          test -n "${{ secrets.NPM_TOKEN }}" || (echo "NPM_TOKEN is required for semantic-release npm plugins" && exit 1)
+
       - name: Run extension host tests
         run: npm run test:host
 
@@ -40,7 +45,13 @@ jobs:
       - name: Sign VSIX (keyless)
         run: cosign sign-blob --yes --output-signature supe-toolkit.vsix.sig supe-toolkit.vsix
 
+      - name: Generate build provenance attestation
+        uses: actions/attest-build-provenance@v2
+        with:
+          subject-path: extension/supe-toolkit.vsix
+
       - name: Semantic release
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          NPM_TOKEN: ${{ secrets.NPM_TOKEN }}
         run: npx semantic-release

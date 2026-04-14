@@ -38,6 +38,8 @@
 - Add dependency explorer UX in extension with update badges, status-bar counters, and install/uninstall actions
 - Add performance + ops hardening in extension (debounced auto-refresh, cache TTL, timeout controls, diagnostics output)
 - Add extension-host integration tests and signed VSIX/semantic-release pipeline scaffolding
+- Add hybrid TreeView + Webview dashboard UX and telemetry backend endpoint wiring
+- Add mouse/keyboard dependency search workflows for high-speed accessibility
 
 ## Phase 8 (future)
 - Advanced preset provenance (signature chains, transparency logs)

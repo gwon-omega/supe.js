@@ -11,7 +11,9 @@ test("supe extension commands are registered", async () => {
     "supeExtension.refreshDependencies",
     "supeExtension.installPackage",
     "supeExtension.uninstallPackage",
-    "supeExtension.loadMoreDependencies"
+    "supeExtension.loadMoreDependencies",
+    "supeExtension.openDashboard",
+    "supeExtension.searchDependencies"
   ].forEach((cmd) => assert.ok(commands.includes(cmd), `${cmd} should be registered`));
 });
 

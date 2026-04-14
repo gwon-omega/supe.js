@@ -144,6 +144,8 @@ Key commands:
 - `Supe: Refresh Dependency Insights` with dependency tree + update badges + status count
 - Configurable extension settings: auto-refresh, debounce, command timeout, cache TTL, preferred package manager
 - Large-repo UX: lazy pagination + background metadata worker + retry/fallback diagnostics
+- Hybrid UI: dependency TreeView + command dashboard Webview, telemetry endpoint hooks, and signed-VSIX release workflow
+- Interaction UX: mouse + keyboard dependency search from dashboard and command palette filter
 
 ### Core commands
 
